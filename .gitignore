@@ -1,0 +1,6 @@
+node_modules/
+dist/
+.env
+src/models/Product.model.ts
+src/handlers/product.ts
+src/routes/router.ts
