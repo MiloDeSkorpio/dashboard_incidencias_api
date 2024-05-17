@@ -4,3 +4,4 @@ dist/
 src/models/Product.model.ts
 src/handlers/product.ts
 src/routes/router.ts
+coverage/
