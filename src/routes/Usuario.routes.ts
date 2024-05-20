@@ -38,13 +38,14 @@ routerUsuario.post('/',
   createUsuario
 )
 routerUsuario.put('/:id',
+  param('id').isInt().withMessage('ID no válido'),
   body('nombre')
-    .notEmpty().withMessage('El nombre no puede ir vacio'),
+    .notEmpty().withMessage('El Nombre no puede ir vacio'),
   body('apellido')
-    .notEmpty().withMessage('El apellido no puede ir vacio'),
+    .notEmpty().withMessage('El Apellido no puede ir vacio'),
   body('telefono')
-    .isNumeric().withMessage('Valor no Válido')
-    .notEmpty().withMessage('El nombre del producto no puede ir vacio')
+    .isNumeric().withMessage('Telefono no Válido')
+    .notEmpty().withMessage('El Telefono del producto no puede ir vacio')
     .isLength({ min: 10, max: 10 }).withMessage('Ingresa un Numero telefonico a 10 digitos'),
   body('email')
     .notEmpty().withMessage('El correo no puede ir vacio')
@@ -52,10 +53,10 @@ routerUsuario.put('/:id',
   body('password')
     .notEmpty().withMessage('Es Necesario agregar un password'),
   body('tipoId')
-    .isNumeric().withMessage('Valor no valido')
+    .isNumeric().withMessage('Tipo de usuario no registrado')
     .notEmpty().withMessage('Agrega un Tipo de Usuario'),
   body('orgId')
-    .isNumeric().withMessage('Valor no valido')
+    .isNumeric().withMessage('Organismo no registrado')
     .notEmpty().withMessage('Agrega un Organismo'),
   handleInputErrors,
   updateUsuario

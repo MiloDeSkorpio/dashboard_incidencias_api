@@ -26,7 +26,7 @@ describe('POST /api/usuario', () => {
     expect(response.body.errors).toHaveLength(1)
 
     expect(response.status).not.toBe(404)
-    expect(response.body.errors).not.toHaveLength(2)
+    expect(response.body.errors).not.toHaveLength(3)
   })
   it('should display that the apellido is empty', async () => {
     const response = await request(server).post('/api/usuario').send({
@@ -257,7 +257,6 @@ describe('GET /api/usuario/:id', () => {
 })
 
 describe('PUT /api/usuario/:id', () => {
-
   it('should check a valid ID in the URL', async () => {
     const response = await request(server)
       .put('/api/usuario/not-valid-url')
@@ -277,84 +276,338 @@ describe('PUT /api/usuario/:id', () => {
     expect(response.body.errors[0].msg).toBe('ID no válido')
   })
 
-  //   it('should display validation error messages when updating a usuario', async() => {
-  //       const response = await request(server).put('/api/usuario/1').send({})
+  it('should display validation error messages when updating a usuario', async () => {
+    const response = await request(server).put('/api/usuario/1').send({ })
 
-  //       expect(response.status).toBe(400)
-  //       expect(response.body).toHaveProperty('errors')
-  //       expect(response.body.errors).toBeTruthy()
-  //       expect(response.body.errors).toHaveLength(5)
+    expect(response.status).toBe(400)
+    expect(response.body).toHaveProperty('errors')
+    expect(response.body.errors).toBeTruthy()
+    expect(response.body.errors).toHaveLength(12)
 
-  //       expect(response.status).not.toBe(200)
-  //       expect(response.body).not.toHaveProperty('data')
-  //   }) 
+    expect(response.status).not.toBe(200)
+    expect(response.body).not.toHaveProperty('data')
+  })
 
-  //   it('should validate that the price is greater than 0', async() => {
-  //       const response = await request(server)
-  //                               .put('/api/usuario/1')
-  //                               .send({
-  //                                   name: "Monitor Curvo",
-  //                                   availability: true,
-  //                                   price : 0
-  //                               })
+    it('should validate that the nombre is not empty', async() => {
+        const response = await request(server)
+                                .put('/api/usuario/1')
+                                .send({
+                                  nombre: '',
+                                  apellido: 'Roman',
+                                  telefono: 2010152015,
+                                  email: 'correo@correo.com',
+                                  password: 'sd84$554asd',
+                                  tipoId: 2,
+                                  orgId: 1
+                                })
 
-  //       expect(response.status).toBe(400)
-  //       expect(response.body).toHaveProperty('errors')
-  //       expect(response.body.errors).toBeTruthy()
-  //       expect(response.body.errors).toHaveLength(1)
-  //       expect(response.body.errors[0].msg).toBe('Precio no válido')
+        expect(response.status).toBe(400)
+        expect(response.body).toHaveProperty('errors')
+        expect(response.body.errors).toBeTruthy()
+        expect(response.body.errors).toHaveLength(1)
+        expect(response.body.errors[0].msg).toBe('El Nombre no puede ir vacio')
 
-  //       expect(response.status).not.toBe(200)
-  //       expect(response.body).not.toHaveProperty('data')
-  //   }) 
+        expect(response.status).not.toBe(200)
+        expect(response.body).not.toHaveProperty('data')
+    }) 
+    it('should validate that the apellido is not empty', async() => {
+        const response = await request(server)
+                                .put('/api/usuario/1')
+                                .send({
+                                  nombre: 'Pedro',
+                                  apellido: '',
+                                  telefono: 2010152015,
+                                  email: 'correo@correo.com',
+                                  password: 'sd84$554asd',
+                                  tipoId: 2,
+                                  orgId: 1
+                                })
 
-  //   it('should return a 404 response for a non-existent product', async() => {
-  //       const productId = 2000
-  //       const response = await request(server)
-  //                               .put(`/api/usuario/${productId}`)
-  //                               .send({
-  //                                   name: "Monitor Curvo",
-  //                                   availability: true,
-  //                                   price : 300
-  //                               })
+        expect(response.status).toBe(400)
+        expect(response.body).toHaveProperty('errors')
+        expect(response.body.errors).toBeTruthy()
+        expect(response.body.errors).toHaveLength(1)
+        expect(response.body.errors[0].msg).toBe('El Apellido no puede ir vacio')
 
-  //       expect(response.status).toBe(404)
-  //       expect(response.body.error).toBe('Producto No Encontrado')
+        expect(response.status).not.toBe(200)
+        expect(response.body).not.toHaveProperty('data')
+    }) 
+    it('should validate that the telefono is not empty', async() => {
+        const response = await request(server)
+                                .put('/api/usuario/1')
+                                .send({
+                                  nombre: 'Pedro',
+                                  apellido: 'Roman',
+                                  telefono: '',
+                                  email: 'correo@correo.com',
+                                  password: 'sd84$554asd',
+                                  tipoId: 2,
+                                  orgId: 1
+                                })
 
-  //       expect(response.status).not.toBe(200)
-  //       expect(response.body).not.toHaveProperty('data')
-  //   }) 
+        expect(response.status).toBe(400)
+        expect(response.body).toHaveProperty('errors')
+        expect(response.body.errors).toBeTruthy()
+        expect(response.body.errors).toHaveLength(3)
+        expect(response.body.errors[1].msg).toBe('El Telefono del usuarioo no puede ir vacio')
 
-  //   it('should update an existing product with valid data', async() => {
-  //       const response = await request(server)
-  //                               .put(`/api/usuario/1`)
-  //                               .send({
-  //                                   name: "Monitor Curvo",
-  //                                   availability: true,
-  //                                   price : 300
-  //                               })
+        expect(response.status).not.toBe(200)
+        expect(response.body).not.toHaveProperty('data')
+    }) 
+    it('should validate that the telefono is length to 10', async() => {
+        const response = await request(server)
+                                .put('/api/usuario/1')
+                                .send({
+                                  nombre: 'Pedro',
+                                  apellido: 'Roman',
+                                  telefono: 20101520,
+                                  email: 'correo@correo.com',
+                                  password: 'sd84$554asd',
+                                  tipoId: 2,
+                                  orgId: 1
+                                })
 
-  //       expect(response.status).toBe(200)
-  //       expect(response.body).toHaveProperty('data')
+        expect(response.status).toBe(400)
+        expect(response.body).toHaveProperty('errors')
+        expect(response.body.errors).toBeTruthy()
+        expect(response.body.errors).toHaveLength(1)
+        expect(response.body.errors[0].msg).toBe('Ingresa un Numero telefonico a 10 digitos')
 
-  //       expect(response.status).not.toBe(400)
-  //       expect(response.body).not.toHaveProperty('errors')
-  //   }) 
+        expect(response.status).not.toBe(200)
+        expect(response.body).not.toHaveProperty('data')
+    }) 
+    it('should validate that the telefono is numeric', async() => {
+        const response = await request(server)
+                                .put('/api/usuario/1')
+                                .send({
+                                  nombre: 'Pedro',
+                                  apellido: 'Roman',
+                                  telefono: '2010AB2015',
+                                  email: 'correo@correo.com',
+                                  password: 'sd84$554asd',
+                                  tipoId: 2,
+                                  orgId: 1
+                                })
+
+        expect(response.status).toBe(400)
+        expect(response.body).toHaveProperty('errors')
+        expect(response.body.errors).toBeTruthy()
+        expect(response.body.errors).toHaveLength(1)
+        expect(response.body.errors[0].msg).toBe('Telefono no Válido')
+
+        expect(response.status).not.toBe(200)
+        expect(response.body).not.toHaveProperty('data')
+    }) 
+    it('should validate that the email is not empty', async() => {
+        const response = await request(server)
+                                .put('/api/usuario/1')
+                                .send({
+                                  nombre: 'Pedro',
+                                  apellido: 'Roman',
+                                  telefono: 2010152015,
+                                  email: '',
+                                  password: 'sd84$554asd',
+                                  tipoId: 2,
+                                  orgId: 1
+                                })
+
+        expect(response.status).toBe(400)
+        expect(response.body).toHaveProperty('errors')
+        expect(response.body.errors).toBeTruthy()
+        expect(response.body.errors).toHaveLength(2)
+        expect(response.body.errors[0].msg).toBe('El correo no puede ir vacio')
+
+        expect(response.status).not.toBe(200)
+        expect(response.body).not.toHaveProperty('data')
+    }) 
+    it('should validate that the email is a valid email', async() => {
+        const response = await request(server)
+                                .put('/api/usuario/1')
+                                .send({
+                                  nombre: 'Pedro',
+                                  apellido: 'Roman',
+                                  telefono: 2010152015,
+                                  email: 'correo@correo',
+                                  password: 'sd84$554asd',
+                                  tipoId: 2,
+                                  orgId: 1
+                                })
+
+        expect(response.status).toBe(400)
+        expect(response.body).toHaveProperty('errors')
+        expect(response.body.errors).toBeTruthy()
+        expect(response.body.errors).toHaveLength(1)
+        expect(response.body.errors[0].msg).toBe('Ingresa un Email Valido')
+
+        expect(response.status).not.toBe(200)
+        expect(response.body).not.toHaveProperty('data')
+    }) 
+    it('should validate that the password is not empty', async() => {
+        const response = await request(server)
+                                .put('/api/usuario/1')
+                                .send({
+                                  nombre: 'Pedro',
+                                  apellido: 'Roman',
+                                  telefono: 2010152015,
+                                  email: 'correo@correo.com',
+                                  password: '',
+                                  tipoId: 2,
+                                  orgId: 1
+                                })
+
+        expect(response.status).toBe(400)
+        expect(response.body).toHaveProperty('errors')
+        expect(response.body.errors).toBeTruthy()
+        expect(response.body.errors).toHaveLength(1)
+        expect(response.body.errors[0].msg).toBe('Es Necesario agregar un password')
+
+        expect(response.status).not.toBe(200)
+        expect(response.body).not.toHaveProperty('data')
+    }) 
+    it('should validate that the tipoId is numeric', async() => {
+        const response = await request(server)
+                                .put('/api/usuario/1')
+                                .send({
+                                  nombre: 'Pedro',
+                                  apellido: 'Roman',
+                                  telefono: 2010152015,
+                                  email: 'correo@correo.com',
+                                  password: 'd84$554asd',
+                                  tipoId: 'A',
+                                  orgId: 1
+                                })
+
+        expect(response.status).toBe(400)
+        expect(response.body).toHaveProperty('errors')
+        expect(response.body.errors).toBeTruthy()
+        expect(response.body.errors).toHaveLength(1)
+        expect(response.body.errors[0].msg).toBe('Tipo de usuario no registrado')
+
+        expect(response.status).not.toBe(200)
+        expect(response.body).not.toHaveProperty('data')
+    }) 
+    it('should validate that the tipoId is not empty', async() => {
+        const response = await request(server)
+                                .put('/api/usuario/1')
+                                .send({
+                                  nombre: 'Pedro',
+                                  apellido: 'Roman',
+                                  telefono: 2010152015,
+                                  email: 'correo@correo.com',
+                                  password: 'd84$554asd',
+                                  tipoId: '',
+                                  orgId: 1
+                                })
+
+        expect(response.status).toBe(400)
+        expect(response.body).toHaveProperty('errors')
+        expect(response.body.errors).toBeTruthy()
+        expect(response.body.errors).toHaveLength(2)
+        expect(response.body.errors[0].msg).toBe('Tipo de usuario no registrado')
+
+        expect(response.status).not.toBe(200)
+        expect(response.body).not.toHaveProperty('data')
+    }) 
+    it('should validate that the orgId is numeric', async() => {
+        const response = await request(server)
+                                .put('/api/usuario/1')
+                                .send({
+                                  nombre: 'Pedro',
+                                  apellido: 'Roman',
+                                  telefono: 2010152015,
+                                  email: 'correo@correo.com',
+                                  password: 'd84$554asd',
+                                  tipoId: 1,
+                                  orgId: 'b'
+                                })
+
+        expect(response.status).toBe(400)
+        expect(response.body).toHaveProperty('errors')
+        expect(response.body.errors).toBeTruthy()
+        expect(response.body.errors).toHaveLength(1)
+        expect(response.body.errors[0].msg).toBe('Organismo no registrado')
+
+        expect(response.status).not.toBe(200)
+        expect(response.body).not.toHaveProperty('data')
+    }) 
+    it('should validate that the orgId is numeric', async() => {
+        const response = await request(server)
+                                .put('/api/usuario/1')
+                                .send({
+                                  nombre: 'Pedro',
+                                  apellido: 'Roman',
+                                  telefono: 2010152015,
+                                  email: 'correo@correo.com',
+                                  password: 'd84$554asd',
+                                  tipoId: 1,
+                                  orgId: ''
+                                })
+
+        expect(response.status).toBe(400)
+        expect(response.body).toHaveProperty('errors')
+        expect(response.body.errors).toBeTruthy()
+        expect(response.body.errors).toHaveLength(2)
+        expect(response.body.errors[1].msg).toBe('Agrega un Organismo')
+
+        expect(response.status).not.toBe(200)
+        expect(response.body).not.toHaveProperty('data')
+    }) 
+
+    it('should return a 404 response for a non-existent usuario', async() => {
+        const usuarioId = 2000
+        const response = await request(server)
+                                .put(`/api/usuario/${usuarioId}`)
+                                .send({
+                                  nombre: 'Pedro',
+                                  apellido: 'Roman',
+                                  telefono: 2010152015,
+                                  email: 'correo@correo.com',
+                                  password: 'd84$554asd',
+                                  tipoId: 1,
+                                  orgId: 3
+                                })
+
+        expect(response.status).toBe(404)
+        expect(response.body.error).toBe('Usuario No Encontrado')
+
+        expect(response.status).not.toBe(200)
+        expect(response.body).not.toHaveProperty('data')
+    }) 
+
+    it('should update an existing usuario with valid data', async() => {
+        const response = await request(server)
+                                .put(`/api/usuario/1`)
+                                .send({
+                                  nombre: 'Pedro',
+                                  apellido: 'Roman',
+                                  telefono: 2010152015,
+                                  email: 'correo@correo.com',
+                                  password: 'd84$554asd',
+                                  tipoId: 1,
+                                  orgId: 3
+                                })
+
+        expect(response.status).toBe(200)
+        expect(response.body).toHaveProperty('data')
+
+        expect(response.status).not.toBe(400)
+        expect(response.body).not.toHaveProperty('errors')
+    }) 
 
 
 })
 
 // describe('PATCH /api/usuario/:id', () => {
-//   it('should return a 404 response for a non-existing product', async () => {
-//       const productId = 2000
-//       const response = await request(server).patch(`/api/usuario/${productId}`)
+//   it('should return a 404 response for a non-existing usuario', async () => {
+//       const usuarioId = 2000
+//       const response = await request(server).patch(`/api/usuario/${usuarioId}`)
 //       expect(response.status).toBe(404)
-//       expect(response.body.error).toBe('Producto No Encontrado')
+//       expect(response.body.error).toBe('usuarioo No Encontrado')
 //       expect(response.status).not.toBe(200)
 //       expect(response.body).not.toHaveProperty('data')
 //   })
 
-//   it('should update the product availability', async () => {
+//   it('should update the usuario availability', async () => {
 //       const response = await request(server).patch('/api/usuario/1')
 //       expect(response.status).toBe(200)
 //       expect(response.body).toHaveProperty('data')
@@ -366,28 +619,28 @@ describe('PUT /api/usuario/:id', () => {
 //   })
 // })
 
-// describe('DELETE /api/usuario/:id', () => {
-//   it('should check a valid ID', async () => {
-//       const response = await request(server).delete('/api/usuario/not-valid')
-//       expect(response.status).toBe(400)
-//       expect(response.body).toHaveProperty('errors')
-//       expect(response.body.errors[0].msg).toBe('ID no válido')
-//   })
+describe('DELETE /api/usuario/:id', () => {
+  it('should check a valid ID', async () => {
+      const response = await request(server).delete('/api/usuario/not-valid')
+      expect(response.status).toBe(400)
+      expect(response.body).toHaveProperty('errors')
+      expect(response.body.errors[0].msg).toBe('ID no Válido')
+  })
 
-//   it('should return a 404 response for a non-existent product', async () => {
-//       const productId = 2000
-//       const response = await request(server).delete(`/api/usuario/${productId}`)
-//       expect(response.status).toBe(404)
-//       expect(response.body.error).toBe('Producto No Encontrado')
-//       expect(response.status).not.toBe(200)
-//   })
+  it('should return a 404 response for a non-existent usuario', async () => {
+      const usuarioId = 2000
+      const response = await request(server).delete(`/api/usuario/${usuarioId}`)
+      expect(response.status).toBe(404)
+      expect(response.body.error).toBe('Usuario No Encontrado')
+      expect(response.status).not.toBe(200)
+  })
 
-//   it('should delete a product', async () => {
-//       const response = await request(server).delete('/api/usuario/1')
-//       expect(response.status).toBe(200)
-//       expect(response.body.data).toBe("Producto Eliminado")
+  it('should delete a usuario', async () => {
+      const response = await request(server).delete('/api/usuario/1')
+      expect(response.status).toBe(200)
+      expect(response.body.data).toBe("Usuario Eliminado")
 
-//       expect(response.status).not.toBe(404)
-//       expect(response.status).not.toBe(400)
-//   })
-// })
+      expect(response.status).not.toBe(404)
+      expect(response.status).not.toBe(400)
+  })
+})

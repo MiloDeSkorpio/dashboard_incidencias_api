@@ -11,7 +11,7 @@ export const getAutobuses = async (req: Request, res: Response) => {
     })
     res.json({ data: autobuses })
   } catch (error) {
-    console.log(error)
+    // console.log(error)
   }
 }
 export const getAutobusById = async (req: Request, res: Response) => {
@@ -26,7 +26,7 @@ export const getAutobusById = async (req: Request, res: Response) => {
     }
     res.json({ data: autobus })
   } catch (error) {
-    console.log(error)
+    // console.log(error)
   }
 }
 
@@ -35,7 +35,7 @@ export const createAutobus = async (req: Request, res: Response) => {
     const autobus = await Autobus.create(req.body)
     res.status(201).json({ data: autobus })
   } catch (error) {
-    console.log(error)
+    // console.log(error)
   }
 }
 
