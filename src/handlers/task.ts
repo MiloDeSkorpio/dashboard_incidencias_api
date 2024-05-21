@@ -30,12 +30,8 @@ export const getTaskById = async (req: Request, res: Response) => {
   }
 }
 export const createTask = async (req: Request, res: Response) => {
-  try {
-    const task = await Task.create(req.body)
+  const task = await Task.create(req.body)
     res.status(201).json({data: task})
-  } catch (error) {
-    console.log(error)
-  }
 }
 export const updateTecnico = async  (req: Request, res: Response) => {
   const { id } = req.params

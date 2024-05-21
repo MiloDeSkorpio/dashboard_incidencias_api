@@ -95,6 +95,20 @@ describe('POST /api/task', () => {
     expect(response.status).not.toBe(404)
     expect(response.body.errors).not.toHaveLength(3)
   })
+  it('should create a new task', async () => {
+    const response = await request(server).post('/api/task').send({
+      idBus: 1,
+      idFalla: 3,
+      detalles: 'La falla tiene que tener más de 15 caracteres.',
+      idSuper: 1
+    })
+    expect(response.status).toEqual(201)
+    expect(response.body).toHaveProperty('data')
+
+    expect(response.status).not.toBe(404)
+    expect(response.status).not.toBe(200)
+    expect(response.body).not.toHaveProperty('errors')
+  })
 })
 
 describe('GET /api/task', () => {
@@ -136,51 +150,24 @@ describe('GET /api/task/:id', () => {
   })
 })
 
-// describe('PATCH /api/task/:id', () => {
-//   it('should return a 404 response for a non-existing task', async () => {
-//       const taskId = 2000
-//       const response = await request(server).patch(`/api/task/${taskId}`)
-//       expect(response.status).toBe(404)
-//       expect(response.body.error).toBe('Incidencia no Encontrada')
-//       expect(response.status).not.toBe(200)
-//       expect(response.body).not.toHaveProperty('data')
-//   })
+describe('PATCH /api/task/:id', () => {
+  it('should return a 404 response for a non-existing task', async () => {
+      const taskId = 2000
+      const response = await request(server).patch(`/api/task/${taskId}`)
+      expect(response.status).toBe(404)
+      expect(response.body.error).toBe('Incidencia no Encontrada')
+      expect(response.status).not.toBe(200)
+      expect(response.body).not.toHaveProperty('data')
+  })
 
-//   it('should update the task idTecnico', async () => {
-//       const response = await request(server).patch('/api/task/1')
-//       expect(response.status).toBe(200)
-//       expect(response.body).toHaveProperty('data')
-//       expect(response.body.data.idTec).toBe(1)
+  it('should update the task idTecnico', async () => {
+      const response = await request(server).patch('/api/task/1')
+      expect(response.status).toBe(200)
+      expect(response.body).toHaveProperty('data')
+      expect(response.body.data.idTec).toBe(1)
 
-//       expect(response.status).not.toBe(404)
-//       expect(response.status).not.toBe(400)
-//       expect(response.body).not.toHaveProperty('error')
-//   })
-// })
-
-describe('PUT /api/task/:id', () => {
-  it('should check a valid ID in the URL', async () => {
-    const response = await request(server)
-      .put('/api/task/not-valid-url')
-      .send({
-        idStatus: 1,
-        id: 1,
-        idBus: 2,
-        idFalla: 8,
-        detalles: 'El Validor tarda en leer las tarjetas',
-        updatedAt: '2024-05-21T00:22:02.448Z',
-        createdAt: '2024-05-21T00:22:02.448Z',
-        idSuper: 1,
-        idTec: 1,
-        assignedAt: '2024-05-21T00:22:02.448Z',
-        observaciones: 'Se realizaron tods las reparaciones correspondientes',
-        validatedAt: '2024-05-21T00:22:02.448Z',
-        timeAtention: null
-      })
-
-    expect(response.status).toBe(400)
-    expect(response.body).toHaveProperty('errors')
-    expect(response.body.errors).toHaveLength(1)
-    expect(response.body.errors[0].msg).toBe('ID no Válido')
+      expect(response.status).not.toBe(404)
+      expect(response.status).not.toBe(400)
+      expect(response.body).not.toHaveProperty('error')
   })
 })

@@ -1,6 +1,37 @@
 import request from "supertest"
 import server from "../../server"
 
+describe('POST /api/status', () => {
+  it('should display validation errors', async () => {
+    const response = await request(server).post('/api/status').send({})
+    expect(response.status).toBe(400)
+    expect(response.body).toHaveProperty('errors')
+    expect(response.body.errors).toHaveLength(1)
+
+    expect(response.status).not.toBe(404)
+    expect(response.body.errors).not.toHaveLength(3)
+  })
+  it('should display that the nombre is empty', async () => {
+    const response = await request(server).post('/api/status').send({
+      nombre: ''
+    })
+    expect(response.status).toBe(400)
+    expect(response.body).toHaveProperty('errors')
+    expect(response.body.errors).not.toHaveLength(3)
+  })
+  it('should create a new status', async () => {
+    const response = await request(server).post('/api/status').send({
+      nombre: 'Abierta'
+    })
+    expect(response.status).toEqual(201)
+    expect(response.body).toHaveProperty('data')
+
+    expect(response.status).not.toBe(404)
+    expect(response.status).not.toBe(200)
+    expect(response.body).not.toHaveProperty('errors')
+  })
+})
+
 describe('GET /api/status', () => {
   it('should check if api/status url exists', async () => {
     const response = await request(server).get('/api/status')

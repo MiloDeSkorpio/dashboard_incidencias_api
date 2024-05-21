@@ -21,3 +21,7 @@ export const getStatusById = async (req: Request, res: Response) => {
   }
   res.json({ data: status })
 }
+export const createStatus = async (req: Request, res: Response) => {
+  const status = await Status.create(req.body)
+  res.status(201).json({ data: status })
+}

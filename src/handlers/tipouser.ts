@@ -21,3 +21,7 @@ export const getTipoById = async (req: Request, res: Response) => {
   }
   res.json({ data: tipo })
 }
+export const createTipo = async (req: Request, res: Response) => {
+  const tipo = await TipoUser.create(req.body)
+  res.status(201).json({ data: tipo })
+}

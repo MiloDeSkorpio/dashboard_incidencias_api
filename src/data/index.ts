@@ -3,7 +3,7 @@ import db from '../config/db'
 
 const clearDB = async () => {
     try {
-        await db.sync()
+        await db.sync({force: true})
         console.log('Datos eliminados correctamente')
         exit(0)
     } catch (error) {
