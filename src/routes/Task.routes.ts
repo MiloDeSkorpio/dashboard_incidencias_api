@@ -24,6 +24,9 @@ routerTask.post('/',
   body('detalles')
     .notEmpty().withMessage('Es necesario agregar un Detalle extra de la falla.')
     .custom(value => value.length > 15).withMessage('Agrega un detalle más largo.'),
+  body('idSuper')
+    .notEmpty().withMessage('Es necesario asignar un Supervisor.')
+    .isNumeric().withMessage('Asigna un Supervisor Válido'),
   handleInputErrors,
   createTask
 )

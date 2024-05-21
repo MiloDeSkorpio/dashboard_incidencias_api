@@ -20,7 +20,7 @@ export const getStatusById = async (req: Request, res: Response) => {
     const status = await Status.findByPk(id)
     if (!status) {
       return res.status(404).json({
-        error: 'Status No Encontrada'
+        error: 'Status No Encontrado'
       });
 
     }
@@ -28,25 +28,4 @@ export const getStatusById = async (req: Request, res: Response) => {
   } catch (error) {
     console.log(error)
   }
-}
-
-export const createStatus = async (req: Request, res: Response) => {
-  try {
-    const status = await Status.create(req.body)
-    res.status(201).json({ data: status })
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-export const deleteStatus = async (req: Request, res: Response) => {
-  const { id } = req.params
-  const status = await Status.findByPk(id)
-  if (!status) {
-    return res.status(404).json({
-      error: 'Status No Encontrada'
-    });
-  }
-  await Status.destroy({truncate:true})
-  res.json({ data: 'Status Eliminada' })
 }

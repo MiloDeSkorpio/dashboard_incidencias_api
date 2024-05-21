@@ -11,7 +11,7 @@ export const getTasks = async (req: Request, res: Response) => {
   })
   res.json({data: tasks})
  } catch (error) {
-  console.log(error)
+  // console.log(error)
  }
 }
 export const getTaskById = async (req: Request, res: Response) => {
@@ -20,13 +20,13 @@ export const getTaskById = async (req: Request, res: Response) => {
     const task = await Task.findByPk(id)
     if(!task){
       return res.status(404).json({
-        error: 'tasko No Encontrado'
+        error: 'Incidencia No Encontrada'
       });
         
     }
     res.json({data: task})
   } catch (error) {
-   console.log(error)
+  //  console.log(error)
   }
  }
 
@@ -86,9 +86,9 @@ export const deleteTask = async  (req: Request, res: Response) => {
     const task = await Task.findByPk(id)
     if(!task){
       return res.status(404).json({
-        error: 'tasko No Encontrado'
+        error: 'Incidencia no Encontrada'
       });        
     }
     await task.destroy()
-    res.json({data: 'tasko Eliminado' })
+    res.json({data: 'Incidencia Eliminada' })
 }
