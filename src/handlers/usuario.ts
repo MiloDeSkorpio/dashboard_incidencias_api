@@ -31,12 +31,8 @@ export const getUsuarioById = async (req: Request, res: Response) => {
 }
 
 export const createUsuario = async (req: Request, res: Response) => {
-  try {
-    const usuario = await Usuario.create(req.body)
-    res.status(201).json({ data: usuario })
-  } catch (error) {
-    
-  }
+  const usuario = await Usuario.create(req.body)
+  res.status(201).json({ data: usuario })
 }
 
 export const updateUsuario = async (req: Request, res: Response) => {

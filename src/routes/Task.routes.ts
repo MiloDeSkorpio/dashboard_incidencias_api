@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getTasks, getTaskById, createTask, updateTask, deleteTask,updateTecnico } from "../handlers/task";
+import { getTasks, getTaskById, createTask, updateTecnico } from "../handlers/task";
 import { body, param } from "express-validator";
 import { handleInputErrors } from "../middleware";
 
@@ -35,16 +35,5 @@ routerTask.patch('/:id',
   handleInputErrors,
   updateTecnico
 )
-routerTask.put('/:id',
-  param('id').isInt().withMessage('ID no Válido'),
-  body('observaciones')
-    .notEmpty().withMessage('Es necesario agregar las observaciones'),
-  handleInputErrors,
-  updateTask
-)
-routerTask.delete('/:id',
-  param('id').isInt().withMessage('ID no Válido'),
-  handleInputErrors,
-  deleteTask
-)
+
 export default routerTask

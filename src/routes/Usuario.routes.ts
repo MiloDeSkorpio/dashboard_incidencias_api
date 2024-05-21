@@ -6,14 +6,6 @@ import { handleInputErrors } from "../middleware";
 
 const routerUsuario = Router()
 //Routing
-routerUsuario.get('/',
-  getUsuarios
-)
-routerUsuario.get('/:id',
-  param('id').isInt().withMessage('ID no válido'),
-  handleInputErrors,
-  getUsuarioById
-)
 routerUsuario.post('/',
   body('nombre')
     .notEmpty().withMessage('El nombre no puede ir vacio'),
@@ -36,6 +28,14 @@ routerUsuario.post('/',
     .notEmpty().withMessage('Agrega un Organismo'),
   handleInputErrors,
   createUsuario
+)
+routerUsuario.get('/',
+  getUsuarios
+)
+routerUsuario.get('/:id',
+  param('id').isInt().withMessage('ID no válido'),
+  handleInputErrors,
+  getUsuarioById
 )
 routerUsuario.put('/:id',
   param('id').isInt().withMessage('ID no válido'),

@@ -215,6 +215,24 @@ describe('POST /api/usuario', () => {
     expect(response.status).not.toBe(404)
     expect(response.body.errors).not.toHaveLength(3)
   })
+  it('should create a new usuario', async () => {
+    const response = await request(server).post('/api/usuario').send({
+      id: 1,
+      nombre: 'Daniel',
+      apellido: 'Roman',
+      telefono: '5550555055',
+      email: 'correo@correo.com',
+      password: 'lapasssword',
+      tipoId: 1,
+      orgId: 1
+    })
+    expect(response.status).toEqual(201)
+    expect(response.body).toHaveProperty('data')
+
+    expect(response.status).not.toBe(404)
+    expect(response.status).not.toBe(200)
+    expect(response.body).not.toHaveProperty('errors')
+  })
 })
 
 describe('GET /api/usuario', () => {
@@ -596,28 +614,6 @@ describe('PUT /api/usuario/:id', () => {
 
 
 })
-
-// describe('PATCH /api/usuario/:id', () => {
-//   it('should return a 404 response for a non-existing usuario', async () => {
-//       const usuarioId = 2000
-//       const response = await request(server).patch(`/api/usuario/${usuarioId}`)
-//       expect(response.status).toBe(404)
-//       expect(response.body.error).toBe('usuarioo No Encontrado')
-//       expect(response.status).not.toBe(200)
-//       expect(response.body).not.toHaveProperty('data')
-//   })
-
-//   it('should update the usuario availability', async () => {
-//       const response = await request(server).patch('/api/usuario/1')
-//       expect(response.status).toBe(200)
-//       expect(response.body).toHaveProperty('data')
-//       expect(response.body.data.availability).toBe(false)
-
-//       expect(response.status).not.toBe(404)
-//       expect(response.status).not.toBe(400)
-//       expect(response.body).not.toHaveProperty('error')
-//   })
-// })
 
 describe('DELETE /api/usuario/:id', () => {
   it('should check a valid ID', async () => {
