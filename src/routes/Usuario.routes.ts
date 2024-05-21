@@ -45,7 +45,7 @@ routerUsuario.put('/:id',
     .notEmpty().withMessage('El Apellido no puede ir vacio'),
   body('telefono')
     .isNumeric().withMessage('Telefono no Válido')
-    .notEmpty().withMessage('El Telefono del producto no puede ir vacio')
+    .notEmpty().withMessage('El Telefono del usuario no puede ir vacio')
     .isLength({ min: 10, max: 10 }).withMessage('Ingresa un Numero telefonico a 10 digitos'),
   body('email')
     .notEmpty().withMessage('El correo no puede ir vacio')

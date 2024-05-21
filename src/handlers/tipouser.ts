@@ -20,7 +20,7 @@ export const getTipoById = async (req: Request, res: Response) => {
     const tipo = await TipoUser.findByPk(id)
     if (!tipo) {
       return res.status(404).json({
-        error: 'Tipo No Encontrado'
+        error: 'Tipo de Usuario No Encontrado'
       });
 
     }
@@ -44,9 +44,9 @@ export const deleteTipo = async (req: Request, res: Response) => {
   const tipo = await TipoUser.findByPk(id)
   if (!tipo) {
     return res.status(404).json({
-      error: 'Tipo No Encontrado'
+      error: 'Tipo de Usuario No Encontrado'
     });
   }
-  await TipoUser.destroy({truncate:true})
-  res.json({ data: 'Tipo Eliminado' })
+  await TipoUser.destroy({ truncate: true })
+  res.json({ data: 'Tipo de Usuario Eliminado' })
 }
