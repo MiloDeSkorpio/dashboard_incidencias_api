@@ -206,6 +206,17 @@ describe('PATCH /api/task/close/:id', () => {
       expect(response.status).not.toBe(404)
       expect(response.body.errors).not.toHaveLength(3)
   })
+  it('should patch close to task', async () => {
+    const response = await request(server).patch('/api/task/close/1').send({
+      observaciones: 'El validador no contaba con un SAM valido.'
+    })
+    expect(response.status).toEqual(200)
+    expect(response.body).toHaveProperty('data')
+
+    expect(response.status).not.toBe(404)
+    expect(response.status).not.toBe(400)
+    expect(response.body).not.toHaveProperty('errors')
+  })
 })
 describe('PATCH /api/task/validated/:id', () => {
   it('should return a 404 response for a non-existing task', async () => {
@@ -216,17 +227,15 @@ describe('PATCH /api/task/validated/:id', () => {
       expect(response.status).not.toBe(200)
       expect(response.body).not.toHaveProperty('data')
   })
-  // it('should update the task idTecnico', async () => {
-  //     const response = await request(server).patch('/api/task/1').send({
-  //       idTec: 1
-  //     })
+  it('should update the task idTecnico', async () => {
+      const response = await request(server).patch('/api/task/validated/1')
 
-  //     expect(response.status).toBe(200)
-  //     expect(response.body).toHaveProperty('data')
-  //     expect(response.body.data.idTec).toBe(1)
+      expect(response.status).toBe(200)
+      expect(response.body).toHaveProperty('data')
+      // expect(response.body.data.idTec).toBe(1)
 
-  //     expect(response.status).not.toBe(404)
-  //     expect(response.status).not.toBe(400)
-  //     expect(response.body).not.toHaveProperty('error')
-  // })
+      expect(response.status).not.toBe(404)
+      expect(response.status).not.toBe(400)
+      expect(response.body).not.toHaveProperty('error')
+  })
 })
