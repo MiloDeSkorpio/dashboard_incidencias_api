@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getIntegradores,getIntegradorById,createIntegrador,deleteIntegrador } from "../handlers/integrador";
+import { getIntegradores,getIntegradorById,createIntegrador } from "../handlers/integrador";
 import { body, param } from "express-validator";
 import { handleInputErrors } from "../middleware";
 
@@ -22,9 +22,4 @@ routerIntegrador.post('/',
   createIntegrador
 )
 
-routerIntegrador.delete('/:id',
-  param('id').isInt().withMessage('ID no Válido'),
-  handleInputErrors,
-  deleteIntegrador
-)
 export default routerIntegrador
