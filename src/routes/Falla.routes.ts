@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getFallas, getFallaById,createFalla,deleteFalla } from "../handlers/falla";
+import { getFallas, getFallaById,createFalla } from "../handlers/falla";
 import { body, param } from "express-validator";
 import { handleInputErrors } from "../middleware";
 
@@ -8,7 +8,6 @@ const routerFallas = Router()
 routerFallas.get('/',
     getFallas
 )
-
 routerFallas.get('/:id',
     param('id').isInt().withMessage('ID no Válido'),
     handleInputErrors,
@@ -22,9 +21,4 @@ routerFallas.post('/',
   createFalla
 )
 
-routerFallas.delete('/:id',
-  param('id').isInt().withMessage('ID no Válido'),
-  handleInputErrors,
-  deleteFalla
-)
 export default routerFallas

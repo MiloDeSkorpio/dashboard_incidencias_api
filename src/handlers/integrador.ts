@@ -21,7 +21,6 @@ export const getIntegradorById = async (req: Request, res: Response) => {
   }
   res.json({ data: integrador })
 }
-
 export const createIntegrador = async (req: Request, res: Response) => {
   try {
     const integrador = await Integrador.create(req.body)
