@@ -159,9 +159,11 @@ describe('PATCH /api/task/:id', () => {
       expect(response.status).not.toBe(200)
       expect(response.body).not.toHaveProperty('data')
   })
-
   it('should update the task idTecnico', async () => {
-      const response = await request(server).patch('/api/task/1')
+      const response = await request(server).patch('/api/task/1').send({
+        idTec: 1
+      })
+
       expect(response.status).toBe(200)
       expect(response.body).toHaveProperty('data')
       expect(response.body.data.idTec).toBe(1)
@@ -170,4 +172,61 @@ describe('PATCH /api/task/:id', () => {
       expect(response.status).not.toBe(400)
       expect(response.body).not.toHaveProperty('error')
   })
+})
+describe('PATCH /api/task/close/:id', () => {
+  it('should return a 404 response for a non-existing task', async () => {
+      const taskId = 2000
+      const response = await request(server).patch(`/api/task/close/${taskId}`).send({
+        observaciones: 'Es necesario agregar observaciones'
+      })
+      expect(response.status).toBe(404)
+      expect(response.body.error).toBe('Incidencia no Encontrada')
+      expect(response.status).not.toBe(200)
+      expect(response.body).not.toHaveProperty('data')
+  })
+  it('should update the task observaciones is not empty', async () => {
+      const response = await request(server).patch('/api/task/close/1').send({
+        observaciones: ''
+      })
+      expect(response.status).toBe(400)
+      expect(response.body).toHaveProperty('errors')
+      expect(response.body.errors).toHaveLength(2)
+  
+      expect(response.status).not.toBe(404)
+      expect(response.body.errors).not.toHaveLength(3)
+  })
+  it('should update the task observaciones is greather length than 15', async () => {
+      const response = await request(server).patch('/api/task/close/1').send({
+        observaciones: 'Las obser'
+      })
+      expect(response.status).toBe(400)
+      expect(response.body).toHaveProperty('errors')
+      expect(response.body.errors).toHaveLength(1)
+  
+      expect(response.status).not.toBe(404)
+      expect(response.body.errors).not.toHaveLength(3)
+  })
+})
+describe('PATCH /api/task/validated/:id', () => {
+  it('should return a 404 response for a non-existing task', async () => {
+      const taskId = 2000
+      const response = await request(server).patch(`/api/task/validated/${taskId}`)
+      expect(response.status).toBe(404)
+      expect(response.body.error).toBe('Incidencia no Encontrada')
+      expect(response.status).not.toBe(200)
+      expect(response.body).not.toHaveProperty('data')
+  })
+  // it('should update the task idTecnico', async () => {
+  //     const response = await request(server).patch('/api/task/1').send({
+  //       idTec: 1
+  //     })
+
+  //     expect(response.status).toBe(200)
+  //     expect(response.body).toHaveProperty('data')
+  //     expect(response.body.data.idTec).toBe(1)
+
+  //     expect(response.status).not.toBe(404)
+  //     expect(response.status).not.toBe(400)
+  //     expect(response.body).not.toHaveProperty('error')
+  // })
 })

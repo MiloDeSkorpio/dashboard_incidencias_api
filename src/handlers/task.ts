@@ -53,3 +53,45 @@ export const updateTecnico = async  (req: Request, res: Response) => {
     // console.log()
     res.json({data: task})
 }
+export const closeTask = async  (req: Request, res: Response) => {
+  const { id } = req.params
+    const task = await Task.findByPk(id)
+
+    if(!task){
+      return res.status(404).json({
+        error: 'Incidencia no Encontrada'
+      });
+    }
+    function getCurrentTimestamp(): Date {
+        return new Date(); 
+      }
+    const fechaFin = getCurrentTimestamp()
+    const totalAtention = ((fechaFin.getTime() - task.assignedAt.getTime() ) / 1000) / 60
+    //Actualizar
+    const { observaciones } = req.body
+    task.observaciones = observaciones
+    task.idStatus = 3
+    task.timeAtention = totalAtention
+    await task.save()
+    res.json({data: task})
+}
+export const validatedTask = async  (req: Request, res: Response) => {
+  const { id } = req.params
+    const task = await Task.findByPk(id)
+    if(!task){
+      return res.status(404).json({
+        error: 'Incidencia no Encontrada'
+      });
+    }
+    function getCurrentTimestamp(): Date {
+        return new Date(); // Get the current timestamp
+      }
+    const fechaFin = getCurrentTimestamp()
+    //Actualizar
+    task.idStatus = 4
+    task.validatedAt = fechaFin
+    await task.save()
+    // console.log()
+    res.json({data: task})
+}
+

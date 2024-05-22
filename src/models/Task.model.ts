@@ -46,7 +46,7 @@ class Task extends Model {
     })
     declare validatedAt: Date
     @Column({
-        type: DataType.INTEGER  
+        type: DataType.DECIMAL  
     })
     declare timeAtention: number
 
