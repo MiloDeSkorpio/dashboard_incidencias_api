@@ -5,6 +5,109 @@ import { handleInputErrors } from "../middleware";
 
 
 const routerUsuario = Router()
+
+/**
+ * @swagger
+ * components:
+ *  schemas: 
+ *    Usuario:
+ *      type: object
+ *      properties:
+ *        id:
+ *          type: integer
+ *          description: The User ID
+ *          example: 1  
+ *        nombre: 
+ *          type: string
+ *          description: The User name
+ *          example: Vincent
+ *        apellido:
+ *          type: string
+ *          description: The User lastname 
+ *          example: Van Gogh
+ *        
+ */
+
+/**
+ * @swagger
+ * /api/usuario:
+ *  get:
+ *    summary: Get a list of Users
+ *    tags:
+ *      - Usuarios
+ *    description: Return a list of Users
+ *    responses: 
+ *      200:
+ *        description: Succesful Response
+ *        content:
+ *          aplication/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/Usuario' 
+ *              
+ */
+
+/**
+ * @swagger
+ * /api/usuario/{id}:
+ *  get:
+ *   summary: Get a User by ID
+ *   tags:
+ *     - Usuarios
+ *   description: Return a user based on its unique ID
+ *   parameters:
+ *   - in: path
+ *     name: id
+ *     description: The ID of the user to retrieve
+ *     required: true
+ *     schema:
+ *       type: integer
+ *   responses:
+ *     200:
+ *       description: Succesful Response
+ *       content:
+ *         aplication/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Usuario' 
+ *     404:
+ *       description: Not found
+ *     400:
+ *       description: Bad Request - Invalid ID
+ */   
+
+/**
+ * @swagger
+ * /api/usuario:
+ *  post:
+ *    summary: Create a new User
+ *    tags:
+ *      - Usuarios
+ *    description: Returns a new record in the database
+ *    requestBody:
+ *      required: true
+ *      content: 
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              nombre:
+ *                type: string
+ *                example: "Vincent"
+ *              apellido:
+ *                type: string
+ *                example: "Van Gogh"
+ *    responses:
+ *      201:
+ *        description: Product Created Succesfully
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Usuario' 
+ *      400:
+ *        description: Bad Request - invalid input data
+ *          
+ */
 //Routing
 routerUsuario.post('/',
   body('nombre')
@@ -37,6 +140,76 @@ routerUsuario.get('/:id',
   handleInputErrors,
   getUsuarioById
 )
+/**
+ * @swagger
+ * /api/usuario/{id}:
+ *  put:
+ *    summary: Updates a User with user input
+ *    tags:
+ *      - Usuarios
+ *    description: Returns the updated user
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        description: The ID of the user to retrieve
+ *        required: true
+ *        schema:
+ *          type: integer 
+ *    requestBody:
+ *      required: true
+ *      content: 
+ *       aplication/json:
+ *         schema:
+ *           type: object
+ *           properties:
+ *             nombre:
+ *               type: string
+ *               example: "Vincent"
+ *             apellido:
+ *               type: string
+ *               example: "Van Gogh"
+ *    responses:
+ *     200:
+ *       description: Succesful Response
+ *       content:
+ *         aplication/json:
+ *           schema: 
+ *             $ref: '#/components/schemas/Usuario'  
+ *     400:
+ *       description: Bad request invalid Id or invalid input data
+ *     404:
+ *       description: User not found
+ */
+
+/**
+ * @swagger
+ * /api/usuario/{id}:
+ *  patch:
+ *    summary: Update Product availability
+ *    tags:
+ *      - Usuarios
+ *    description: Returns the updated availability
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        description: The ID of the user to retrieve
+ *        required: true
+ *        schema:
+ *          type: integer
+ *    responses:
+ *     200:
+ *       description: Succesful Response
+ *       content:
+ *         aplication/json:
+ *           schema: 
+ *             $ref: '#/components/schemas/Usuario'  
+ *     400:
+ *       description: Bad request invalid Id or invalid input data
+ *     404:
+ *       description: User not found
+ *        
+ * 
+ */
 routerUsuario.put('/:id',
   param('id').isInt().withMessage('ID no válido'),
   body('nombre')
@@ -61,6 +234,37 @@ routerUsuario.put('/:id',
   handleInputErrors,
   updateUsuario
 )
+/**
+ * @swagger
+ * /api/usuario/{id}:
+ *  delete:
+ *    summary: Delete a User  ny a given ID
+ *    tags:
+ *      - Usuarios
+ *    description: Returns the updated availability
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        description: The ID of the user to delete
+ *        required: true
+ *        schema:
+ *          type: integer
+ *    responses:
+ *     200:
+ *       description: Succesful Response
+ *       content:
+ *         aplication/json:
+ *           schema: 
+ *             type: string
+ *             value: 'Usuario Eliminado'
+ *     400:
+ *       description: Bad request invalid Id or invalid input data
+ *     404:
+ *       description: User not found
+ *        
+ * 
+ */
+
 routerUsuario.delete('/:id',
   param('id').isInt().withMessage('ID no Válido'),
   handleInputErrors,

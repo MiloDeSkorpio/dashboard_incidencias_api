@@ -8,6 +8,8 @@ import routerStatus from './routes/Status.routes'
 import routerUsuario from './routes/Usuario.routes'
 import routerTask from './routes/Task.routes'
 // Libs
+import SwaggerUi  from 'swagger-ui-express'
+import swaggerSpec, {swaggerUiOptions} from './config/swagger'
 import express from 'express'
 import db from './config/db'
 import colors from 'colors'
@@ -38,9 +40,8 @@ server.use('/api/falla',routerFallas)
 server.use('/api/status',routerStatus)
 server.use('/api/usuario',routerUsuario)
 server.use('/api/task',routerTask)
-server.get('/api', (req,res) => {
-    res.json({msg: 'Desde API'})
-})
+//Docs
+server.use('/docs',SwaggerUi.serve,SwaggerUi.setup(swaggerSpec, swaggerUiOptions))
 
 
 
