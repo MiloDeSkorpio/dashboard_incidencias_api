@@ -12,8 +12,6 @@ class Integrador extends Model {
     })
     declare nombre: string
 
-    @HasMany(() => Corredor, { foreignKey: 'integradorId' })
-    corredores: Corredor[];
 }
 
 export default Integrador

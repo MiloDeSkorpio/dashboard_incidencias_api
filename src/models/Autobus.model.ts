@@ -8,7 +8,10 @@ class Autobus extends Model {
     type: DataType.STRING(100),
   })
   declare economico: string;
-
+  @Column({
+    type: DataType.INTEGER
+  })
+  declare corredorId: number
 }
 
 export default Autobus;

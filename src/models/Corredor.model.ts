@@ -1,6 +1,7 @@
 
 import { Table, Column,Model,DataType,HasMany} from 'sequelize-typescript'
 import Autobus from './Autobus.model'
+import { Col } from 'sequelize/lib/utils'
 
 @Table({
     tableName:'corredores'
@@ -11,8 +12,10 @@ class Corredor extends Model {
         type: DataType.STRING(100)
     })
     declare nombre: string
-    @HasMany(() => Autobus, { foreignKey: 'corredorId' })
-    autobuses: Autobus[];
+    @Column({
+        type: DataType.INTEGER
+    })
+    declare integradorId: number
 }
 
 export default Corredor
