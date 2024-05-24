@@ -21,10 +21,10 @@ const options: swaggerJSDoc.Options = {
 const swaggerSpec = swaggerJSDoc(options)
 
 const swaggerUiOptions : SwaggerUiOptions = {
+  customfavIcon: '/img/log_CDMX.png',
   customCss: `
     .topbar-wrapper .link {
       content: url(https://www.ort.cdmx.gob.mx/themes/base/assets/images/logos/Logo_CDMX.png);
-      // content: url(https://www.ort.cdmx.gob.mx/themes/base/assets/images/logos/Logo_Dependencia.png);
       height: 80px;
       width: auto;
     }
@@ -32,7 +32,7 @@ const swaggerUiOptions : SwaggerUiOptions = {
       background-color: #fff;
     }
   `,
-  customSiteTitle: 'Documentación API Incidencias'
+  customSiteTitle: 'Documentación API Incidencias',
 
 }
 

@@ -25,56 +25,22 @@ const routerUsuario = Router()
  *          type: string
  *          description: The User lastname 
  *          example: Van Gogh
- *        
+ *        telefono:
+ *          type: char
+ *          example: 5500550055
+ *        email:
+ *          type: string
+ *          example: vincentvg@correo.com
+ *        password:
+ *          type: string
+ *          example: 54$3asD
+ *        tipoId:
+ *          type: integer
+ *          example: 1
+ *        orgId:
+ *          type: integer
+ *          example: 2
  */
-
-/**
- * @swagger
- * /api/usuario:
- *  get:
- *    summary: Get a list of Users
- *    tags:
- *      - Usuarios
- *    description: Return a list of Users
- *    responses: 
- *      200:
- *        description: Succesful Response
- *        content:
- *          aplication/json:
- *            schema:
- *              type: array
- *              items:
- *                $ref: '#/components/schemas/Usuario' 
- *              
- */
-
-/**
- * @swagger
- * /api/usuario/{id}:
- *  get:
- *   summary: Get a User by ID
- *   tags:
- *     - Usuarios
- *   description: Return a user based on its unique ID
- *   parameters:
- *   - in: path
- *     name: id
- *     description: The ID of the user to retrieve
- *     required: true
- *     schema:
- *       type: integer
- *   responses:
- *     200:
- *       description: Succesful Response
- *       content:
- *         aplication/json:
- *           schema:
- *             $ref: '#/components/schemas/Usuario' 
- *     404:
- *       description: Not found
- *     400:
- *       description: Bad Request - Invalid ID
- */   
 
 /**
  * @swagger
@@ -108,6 +74,7 @@ const routerUsuario = Router()
  *        description: Bad Request - invalid input data
  *          
  */
+
 //Routing
 routerUsuario.post('/',
   body('nombre')
@@ -132,9 +99,55 @@ routerUsuario.post('/',
   handleInputErrors,
   createUsuario
 )
+/**
+ * @swagger
+ * /api/usuario:
+ *  get:
+ *    summary: Get a list of Users
+ *    tags:
+ *      - Usuarios
+ *    description: Return a list of Users
+ *    responses: 
+ *      200:
+ *        description: Succesful Response
+ *        content:
+ *          aplication/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/Usuario' 
+ *              
+ */
 routerUsuario.get('/',
   getUsuarios
 )
+/**
+ * @swagger
+ * /api/usuario/{id}:
+ *  get:
+ *   summary: Get a User by ID
+ *   tags:
+ *     - Usuarios
+ *   description: Return a user based on its unique ID
+ *   parameters:
+ *   - in: path
+ *     name: id
+ *     description: The ID of the user to retrieve
+ *     required: true
+ *     schema:
+ *       type: integer
+ *   responses:
+ *     200:
+ *       description: Succesful Response
+ *       content:
+ *         aplication/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Usuario' 
+ *     404:
+ *       description: Not found
+ *     400:
+ *       description: Bad Request - Invalid ID
+ */
 routerUsuario.get('/:id',
   param('id').isInt().withMessage('ID no válido'),
   handleInputErrors,

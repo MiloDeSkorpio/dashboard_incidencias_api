@@ -14,6 +14,7 @@ import express from 'express'
 import db from './config/db'
 import colors from 'colors'
 
+
 //Conexión DB
 export async function connectDB(){
     try {
@@ -31,6 +32,7 @@ const server = express()
 //Leer datos de formualrios
 server.use(express.json())
 //Routing
+server.use(express.static('public'));
 
 server.use('/api/tipouser',routerTipo)
 server.use('/api/integrador', routerIntegrador)
