@@ -1,12 +1,10 @@
 
 import routerTipo from './routes/TipoUser.routes'
-import routerCorredor from './routes/Corredor.routes'
-import routerIntegrador from './routes/Integrador.routes'
 import routerAutobus from './routes/Autobus.routes'
 import routerFallas from './routes/Falla.routes'
 import routerStatus from './routes/Status.routes'
 import routerUsuario from './routes/Usuario.routes'
-import routerTask from './routes/Task.routes'
+import routerIncidencia from './routes/Incidencia.routes'
 // Libs
 import SwaggerUi  from 'swagger-ui-express'
 import swaggerSpec, {swaggerUiOptions} from './config/swagger'
@@ -35,13 +33,11 @@ server.use(express.json())
 server.use(express.static('public'));
 
 server.use('/api/tipouser',routerTipo)
-server.use('/api/integrador', routerIntegrador)
-server.use('/api/corredor',routerCorredor)
 server.use('/api/autobus',routerAutobus)
 server.use('/api/falla',routerFallas)
 server.use('/api/status',routerStatus)
 server.use('/api/usuario',routerUsuario)
-server.use('/api/task',routerTask)
+server.use('/api/incidencia',routerIncidencia)
 //Docs
 server.use('/docs',SwaggerUi.serve,SwaggerUi.setup(swaggerSpec, swaggerUiOptions))
 

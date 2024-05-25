@@ -2,10 +2,10 @@ import { Table, Column,Model,DataType,Default} from 'sequelize-typescript'
 
 
 @Table({
-    tableName:'task'
+    tableName:'incidencias'
 })
 
-class Task extends Model {
+class Incidencia extends Model {
     @Column({
         type: DataType.INTEGER  
     })
@@ -52,4 +52,4 @@ class Task extends Model {
 
 }
 
-export default Task
+export default Incidencia

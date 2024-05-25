@@ -1,19 +1,19 @@
 import { Router } from "express";
-import { getTasks, getTaskById, createTask, updateTecnico,closeTask,validatedTask } from "../handlers/task";
+import { getIncidencias,getIncidenciaById,createIncidencia,updateTecnico,closeIncidencia,validateIncidencia } from "../handlers/incidencia";
 import { body, param } from "express-validator";
 import { handleInputErrors } from "../middleware";
 
-const routerTask = Router()
+const routerIncidencia = Router()
 //Routing
-routerTask.get('/',
-  getTasks
+routerIncidencia.get('/',
+  getIncidencias
 )
-routerTask.get('/:id',
+routerIncidencia.get('/:id',
   param('id').isInt().withMessage('ID no Válido'),
   handleInputErrors,
-  getTaskById
+  getIncidenciaById
 )
-routerTask.post('/',
+routerIncidencia.post('/',
   // Validacion
   body('idBus')
     .isNumeric().withMessage('Valor no Valido')
@@ -28,25 +28,25 @@ routerTask.post('/',
     .notEmpty().withMessage('Es necesario asignar un Supervisor.')
     .isNumeric().withMessage('Asigna un Supervisor Válido'),
   handleInputErrors,
-  createTask
+  createIncidencia
 )
-routerTask.patch('/:id',
+routerIncidencia.patch('/:id',
   param('id').isInt().withMessage('ID no Válido'),
   handleInputErrors,
   updateTecnico
 )
-routerTask.patch('/close/:id',
+routerIncidencia.patch('/close/:id',
   param('id').isInt().withMessage('ID no Válido'),
   body('observaciones')
     .notEmpty().withMessage('Es necesario agregar observaciones')
     .custom(value => value.length > 15).withMessage('Los caracteres minimos son 15'),
   handleInputErrors,
-  closeTask
+  closeIncidencia
 )
-routerTask.patch('/validated/:id',
+routerIncidencia.patch('/validated/:id',
   param('id').isInt().withMessage('ID no Válido'),
   handleInputErrors,
-  validatedTask
+  validateIncidencia
 )
 
-export default routerTask
+export default routerIncidencia
