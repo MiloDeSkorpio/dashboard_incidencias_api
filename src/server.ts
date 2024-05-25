@@ -5,6 +5,7 @@ import routerFallas from './routes/Falla.routes'
 import routerStatus from './routes/Status.routes'
 import routerUsuario from './routes/Usuario.routes'
 import routerIncidencia from './routes/Incidencia.routes'
+import routerOrganismo from './routes/Organismo.routes'
 // Libs
 import SwaggerUi  from 'swagger-ui-express'
 import swaggerSpec, {swaggerUiOptions} from './config/swagger'
@@ -38,6 +39,7 @@ server.use('/api/falla',routerFallas)
 server.use('/api/status',routerStatus)
 server.use('/api/usuario',routerUsuario)
 server.use('/api/incidencia',routerIncidencia)
+server.use('/api/organismo',routerOrganismo)
 //Docs
 server.use('/docs',SwaggerUi.serve,SwaggerUi.setup(swaggerSpec, swaggerUiOptions))
 
