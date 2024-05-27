@@ -1,4 +1,4 @@
-import { Table, Column,Model,DataType} from 'sequelize-typescript'
+import { Table, Column,Model,DataType,Default} from 'sequelize-typescript'
 
 
 @Table({
@@ -34,6 +34,11 @@ class Usuario extends Model {
         type: DataType.INTEGER  
     })
     declare orgId: number
+    @Default(true)
+    @Column({
+        type: DataType.BOOLEAN
+    })
+    declare active: boolean
 
 }
 

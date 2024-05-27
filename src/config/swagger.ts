@@ -8,6 +8,10 @@ const options: swaggerJSDoc.Options = {
       {
         name: 'Usuarios',
         description: 'API operations related to usuarios'
+      },
+      {
+        name: 'Tipos de Usuario',
+        description: 'API operations related to tipos de usuarios'
       }
     ],
     info: {
@@ -16,7 +20,7 @@ const options: swaggerJSDoc.Options = {
       description: "API DOCS for Usuarios"
     }  
   },
-  apis:['./src/routes/Usuario.routes.ts']
+  apis:['./src/routes/*.routes.ts']
 }
 const swaggerSpec = swaggerJSDoc(options)
 

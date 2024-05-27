@@ -596,8 +596,8 @@ describe('PUT /api/usuario/:id', () => {
     const response = await request(server)
       .put(`/api/usuario/1`)
       .send({
-        nombre: 'Pedro',
-        apellido: 'Roman',
+        nombre: 'Pedro ACT',
+        apellido: 'Roman ACT',
         telefono: 2010152015,
         email: 'correo@correo.com',
         password: 'd84$554asd',
@@ -613,6 +613,28 @@ describe('PUT /api/usuario/:id', () => {
   })
 
 
+})
+
+describe('PATCH /api/usuario/:id', () => {
+  it('should return a 404 response for a non-existing user', async () => {
+    const userId = 2000
+    const response = await request(server).patch(`/api/usuario/${userId}`)
+    expect(response.status).toBe(404)
+    expect(response.body.error).toBe('Usuario No Encontrado')
+    expect(response.status).not.toBe(200)
+    expect(response.body).not.toHaveProperty('data')
+})
+
+it('should update the product availability', async () => {
+    const response = await request(server).patch('/api/usuario/1')
+    expect(response.status).toBe(200)
+    expect(response.body).toHaveProperty('data')
+    expect(response.body.data.active).toBe(false)
+
+    expect(response.status).not.toBe(404)
+    expect(response.status).not.toBe(400)
+    expect(response.body).not.toHaveProperty('error')
+})
 })
 
 describe('DELETE /api/usuario/:id', () => {

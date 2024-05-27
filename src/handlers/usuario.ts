@@ -48,10 +48,24 @@ export const updateUsuario = async (req: Request, res: Response) => {
   //Actualizar
   await usuario.update(req.body)
   await usuario.save()
-  // console.log(req.body)
   res.json({ data: usuario })
 }
 
+export const activeUpdateUsuario =async (req: Request, res: Response) => {
+  const { id } = req.params
+  
+  const usuario = await Usuario.findByPk(id)
+  if (!usuario) {
+    return res.status(404).json({
+      error: 'Usuario No Encontrado'
+    });
+
+  }
+  //Actualizar
+  usuario.active = !usuario.dataValues.active
+  await usuario.save()
+  res.json({ data: usuario })
+}
 
 export const deleteUsuario = async (req: Request, res: Response) => {
   const { id } = req.params

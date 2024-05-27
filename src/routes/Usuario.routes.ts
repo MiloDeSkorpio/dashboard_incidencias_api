@@ -1,11 +1,11 @@
 import { Router } from "express";
-import { getUsuarios, getUsuarioById, createUsuario, updateUsuario, deleteUsuario } from "../handlers/usuario";
+import { getUsuarios, getUsuarioById, createUsuario, updateUsuario, activeUpdateUsuario, deleteUsuario } from "../handlers/usuario";
 import { body, param } from "express-validator";
 import { handleInputErrors } from "../middleware";
 
 
 const routerUsuario = Router()
-
+// Schema
 /**
  * @swagger
  * components:
@@ -40,8 +40,11 @@ const routerUsuario = Router()
  *        orgId:
  *          type: integer
  *          example: 2
+ *        active:
+ *          type: boolean
+ *          example: true
  */
-
+// Docs POST
 /**
  * @swagger
  * /api/usuario:
@@ -63,9 +66,25 @@ const routerUsuario = Router()
  *              apellido:
  *                type: string
  *                example: "Van Gogh"
+ *              telefono :
+ *                type: char
+ *                example: 5500550055
+ *              email:
+ *                type: string
+ *                example: vincentvg@correo.com
+ *              password:
+ *                type: string
+ *                example: 54$3asD
+ *              tipoId:
+ *                type: integer
+ *                example: 1
+ *              orgId:
+ *                type: integer
+ *                example: 1
+ *        
  *    responses:
  *      201:
- *        description: Product Created Succesfully
+ *        description: Product Created Successfully
  *        content:
  *          application/json:
  *            schema:
@@ -74,8 +93,7 @@ const routerUsuario = Router()
  *        description: Bad Request - invalid input data
  *          
  */
-
-//Routing
+//Routing POST
 routerUsuario.post('/',
   body('nombre')
     .notEmpty().withMessage('El nombre no puede ir vacio'),
@@ -99,7 +117,9 @@ routerUsuario.post('/',
   handleInputErrors,
   createUsuario
 )
+// Docs GET
 /**
+ *
  * @swagger
  * /api/usuario:
  *  get:
@@ -109,7 +129,7 @@ routerUsuario.post('/',
  *    description: Return a list of Users
  *    responses: 
  *      200:
- *        description: Succesful Response
+ *        description: Successful Response
  *        content:
  *          aplication/json:
  *            schema:
@@ -118,9 +138,11 @@ routerUsuario.post('/',
  *                $ref: '#/components/schemas/Usuario' 
  *              
  */
+//Routing GET
 routerUsuario.get('/',
   getUsuarios
 )
+// Dos GET by ID
 /**
  * @swagger
  * /api/usuario/{id}:
@@ -148,11 +170,13 @@ routerUsuario.get('/',
  *     400:
  *       description: Bad Request - Invalid ID
  */
+// Routing GET by ID
 routerUsuario.get('/:id',
   param('id').isInt().withMessage('ID no válido'),
   handleInputErrors,
   getUsuarioById
 )
+// Docs PUT
 /**
  * @swagger
  * /api/usuario/{id}:
@@ -171,21 +195,14 @@ routerUsuario.get('/:id',
  *    requestBody:
  *      required: true
  *      content: 
- *       aplication/json:
+ *       application/json:
  *         schema:
- *           type: object
- *           properties:
- *             nombre:
- *               type: string
- *               example: "Vincent"
- *             apellido:
- *               type: string
- *               example: "Van Gogh"
+ *            $ref: '#/components/schemas/Usuario'
  *    responses:
  *     200:
- *       description: Succesful Response
+ *       description: Successful Response
  *       content:
- *         aplication/json:
+ *         application/json:
  *           schema: 
  *             $ref: '#/components/schemas/Usuario'  
  *     400:
@@ -193,36 +210,7 @@ routerUsuario.get('/:id',
  *     404:
  *       description: User not found
  */
-
-/**
- * @swagger
- * /api/usuario/{id}:
- *  patch:
- *    summary: Update Product availability
- *    tags:
- *      - Usuarios
- *    description: Returns the updated availability
- *    parameters:
- *      - in: path
- *        name: id
- *        description: The ID of the user to retrieve
- *        required: true
- *        schema:
- *          type: integer
- *    responses:
- *     200:
- *       description: Succesful Response
- *       content:
- *         aplication/json:
- *           schema: 
- *             $ref: '#/components/schemas/Usuario'  
- *     400:
- *       description: Bad request invalid Id or invalid input data
- *     404:
- *       description: User not found
- *        
- * 
- */
+// Routing PUT
 routerUsuario.put('/:id',
   param('id').isInt().withMessage('ID no válido'),
   body('nombre')
@@ -247,6 +235,41 @@ routerUsuario.put('/:id',
   handleInputErrors,
   updateUsuario
 )
+// Docs PATCH
+/**
+ * @swagger
+ * /api/usuario/{id}:
+ *  patch:
+ *    summary: Update User active
+ *    tags:
+ *      - Usuarios
+ *    description: Returns the updated active
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        description: The ID of the user to retrieve
+ *        required: true
+ *        schema:
+ *          type: integer
+ *    responses:
+ *     200:
+ *       description: Succesful Response
+ *       content:
+ *         aplication/json:
+ *           schema: 
+ *             $ref: '#/components/schemas/Usuario'  
+ *     400:
+ *       description: Bad request invalid Id or invalid input data
+ *     404:
+ *       description: User not found
+ */
+// Routing PATCH
+routerUsuario.patch('/:id',
+  param('id').isInt().withMessage('Id no Válido'),
+  handleInputErrors,
+  activeUpdateUsuario
+)
+// Docs DELETE
 /**
  * @swagger
  * /api/usuario/{id}:
@@ -277,7 +300,7 @@ routerUsuario.put('/:id',
  *        
  * 
  */
-
+// Routing DELETE
 routerUsuario.delete('/:id',
   param('id').isInt().withMessage('ID no Válido'),
   handleInputErrors,
