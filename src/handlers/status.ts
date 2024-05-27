@@ -25,3 +25,28 @@ export const createStatus = async (req: Request, res: Response) => {
   const status = await Status.create(req.body)
   res.status(201).json({ data: status })
 }
+export const updateStatus = async (req:Request, res: Response) => {
+  const { id } = req.params
+  
+  const status = await Status.findByPk(id)
+  if (!status) {
+    return res.status(404).json({
+      error: 'Status de Incidencia No Encontrado'
+    });
+  }
+  //Actualizar
+  await status.update(req.body)
+  await status.save()
+  res.json({ data: status })
+}
+export const deleteStatus = async (req: Request, res: Response) => {
+  const { id } = req.params
+  const status = await Status.findByPk(id)
+  if (!status) {
+    return res.status(404).json({
+      error: 'Status de Incidencia No Encontrado'
+    });
+  }
+  await status.destroy()
+  res.json({ data: 'Status de Incidencia Eliminado' })
+}

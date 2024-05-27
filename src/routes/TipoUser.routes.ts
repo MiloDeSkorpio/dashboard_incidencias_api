@@ -158,6 +158,7 @@ routerTipo.post('/',
  *      404:
  *        description: TypeUser not found
  */
+// Routing PUT
 routerTipo.put('/:id',
   param('id').isInt().withMessage('ID no Válido'),
   body('nombre')

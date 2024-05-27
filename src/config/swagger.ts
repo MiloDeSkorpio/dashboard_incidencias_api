@@ -11,13 +11,17 @@ const options: swaggerJSDoc.Options = {
       },
       {
         name: 'Tipos de Usuario',
-        description: 'API operations related to tipos de usuarios'
+        description: 'API operations related to types of users'
+      },
+      {
+        name: 'Status',
+        description: 'API operations related to Status on incidences'
       }
     ],
     info: {
       title: 'REST API Node.js / Express / TypeScript',
       version: "1.0.0",
-      description: "API DOCS for Usuarios"
+      description: "Documentación for API Incidencias ORT CDMX"
     }  
   },
   apis:['./src/routes/*.routes.ts']
