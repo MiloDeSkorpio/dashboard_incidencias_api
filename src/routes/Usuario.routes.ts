@@ -196,8 +196,30 @@ routerUsuario.get('/:id',
  *      required: true
  *      content: 
  *       application/json:
- *         schema:
- *            $ref: '#/components/schemas/Usuario'
+ *          schema:
+ *            type: object
+ *            properties:
+ *              nombre:
+ *                type: string
+ *                example: "Vincent"
+ *              apellido:
+ *                type: string
+ *                example: "Van Gogh"
+ *              telefono :
+ *                type: char
+ *                example: 5500550055
+ *              email:
+ *                type: string
+ *                example: vincentvg@correo.com
+ *              password:
+ *                type: string
+ *                example: 54$3asD
+ *              tipoId:
+ *                type: integer
+ *                example: 1
+ *              orgId:
+ *                type: integer
+ *                example: 1
  *    responses:
  *     200:
  *       description: Successful Response
@@ -274,10 +296,10 @@ routerUsuario.patch('/:id',
  * @swagger
  * /api/usuario/{id}:
  *  delete:
- *    summary: Delete a User  ny a given ID
+ *    summary: Delete a User  by a given ID
  *    tags:
  *      - Usuarios
- *    description: Returns the updated availability
+ *    description: Returns a confirmation message
  *    parameters:
  *      - in: path
  *        name: id
@@ -289,7 +311,7 @@ routerUsuario.patch('/:id',
  *     200:
  *       description: Succesful Response
  *       content:
- *         aplication/json:
+ *         application/json:
  *           schema: 
  *             type: string
  *             value: 'Usuario Eliminado'

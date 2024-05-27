@@ -293,7 +293,6 @@ describe('PUT /api/usuario/:id', () => {
     expect(response.body.errors).toHaveLength(1)
     expect(response.body.errors[0].msg).toBe('ID no válido')
   })
-
   it('should display validation error messages when updating a usuario', async () => {
     const response = await request(server).put('/api/usuario/1').send({})
 
@@ -305,7 +304,6 @@ describe('PUT /api/usuario/:id', () => {
     expect(response.status).not.toBe(200)
     expect(response.body).not.toHaveProperty('data')
   })
-
   it('should validate that the nombre is not empty', async () => {
     const response = await request(server)
       .put('/api/usuario/1')
@@ -570,7 +568,6 @@ describe('PUT /api/usuario/:id', () => {
     expect(response.status).not.toBe(200)
     expect(response.body).not.toHaveProperty('data')
   })
-
   it('should return a 404 response for a non-existent usuario', async () => {
     const usuarioId = 2000
     const response = await request(server)
@@ -591,7 +588,6 @@ describe('PUT /api/usuario/:id', () => {
     expect(response.status).not.toBe(200)
     expect(response.body).not.toHaveProperty('data')
   })
-
   it('should update an existing usuario with valid data', async () => {
     const response = await request(server)
       .put(`/api/usuario/1`)
@@ -611,8 +607,6 @@ describe('PUT /api/usuario/:id', () => {
     expect(response.status).not.toBe(400)
     expect(response.body).not.toHaveProperty('errors')
   })
-
-
 })
 
 describe('PATCH /api/usuario/:id', () => {
