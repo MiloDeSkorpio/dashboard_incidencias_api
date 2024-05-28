@@ -25,4 +25,28 @@ export const createAutobus = async (req: Request, res: Response) => {
   const autobus = await Autobus.create(req.body)
   res.status(201).json({ data: autobus })
 }
-
+export const updateAutobus = async (req:Request, res: Response) => {
+  const { id } = req.params
+  
+  const autobus = await Autobus.findByPk(id)
+  if (!autobus) {
+    return res.status(404).json({
+      error: 'Autobus No Encontrado'
+    });
+  }
+  //Actualizar
+  await autobus.update(req.body)
+  await autobus.save()
+  res.json({ data: autobus })
+}
+export const deleteAutobus = async (req: Request, res: Response) => {
+  const { id } = req.params
+  const autobus = await Autobus.findByPk(id)
+  if (!autobus) {
+    return res.status(404).json({
+      error: 'Autobus No Encontrado'
+    });
+  }
+  await autobus.destroy()
+  res.json({ data: 'Autobus Eliminado' })
+}

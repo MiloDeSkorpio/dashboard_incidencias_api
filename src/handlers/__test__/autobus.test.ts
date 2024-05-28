@@ -119,3 +119,123 @@ describe('GET /api/autobus/:id', () => {
     expect(response.body).toHaveProperty('data')
   })
 })
+describe('PUT /api/autobus/:id', () => {
+  it('should check a valid ID in the URL', async () => {
+    const response = await request(server)
+      .put('/api/autobus/not-valid-url')
+      .send({
+        economico: 30,
+        corredorId: 1
+      })
+
+    expect(response.status).toBe(400)
+    expect(response.body).toHaveProperty('errors')
+    expect(response.body.errors).toHaveLength(1)
+    expect(response.body.errors[0].msg).toBe('ID no Válido')
+  })
+  it('should display validation errors', async () => {
+    const response = await request(server).put('/api/autobus/1').send({})
+    expect(response.status).toBe(400)
+    expect(response.body).toHaveProperty('errors')
+    expect(response.body.errors).toBeTruthy()
+    expect(response.body.errors).toHaveLength(5)
+
+    expect(response.status).not.toBe(200)
+    expect(response.body).not.toHaveProperty('data')
+  })
+  it('should display that the economico is greater than 0', async () => {
+    const response = await request(server).put('/api/autobus/1').send({
+      economico: -3,
+      corredorId: 2
+    })
+    expect(response.status).toBe(400)
+    expect(response.body).toHaveProperty('errors')
+    expect(response.body.errors).toHaveLength(1)
+
+    expect(response.status).not.toBe(404)
+    expect(response.body.errors).not.toHaveLength(2)
+  })
+  it('should display that the economico is empty', async () => {
+    const response = await request(server).put('/api/autobus/1').send({
+      economico: '',
+      corredorId: 2
+    })
+    expect(response.status).toBe(400)
+    expect(response.body).toHaveProperty('errors')
+    expect(response.body.errors).toHaveLength(2)
+
+    expect(response.status).not.toBe(404)
+    expect(response.body.errors).not.toHaveLength(3)
+  })
+  it('should display that the corredorId is Numeric', async () => {
+    const response = await request(server).put('/api/autobus/1').send({
+      economico: 30,
+      corredorId: 'B'
+    })
+    expect(response.status).toBe(400)
+    expect(response.body).toHaveProperty('errors')
+    expect(response.body.errors).toHaveLength(2)
+
+    expect(response.status).not.toBe(404)
+    expect(response.body.errors).not.toHaveLength(3)
+  })
+  it('should display that the corredorId is empty', async () => {
+    const response = await request(server).put('/api/autobus/1').send({
+      economico: 30,
+      corredorId: ''
+    })
+    expect(response.status).toBe(400)
+    expect(response.body).toHaveProperty('errors')
+    expect(response.body.errors).toHaveLength(3)
+
+    expect(response.status).not.toBe(404)
+    expect(response.body.errors).not.toHaveLength(2)
+  })
+  it('should display that the corredorId is greater than 0', async () => {
+    const response = await request(server).put('/api/autobus/1').send({
+      economico: 30,
+      corredorId: -10
+    })
+    expect(response.status).toBe(400)
+    expect(response.body).toHaveProperty('errors')
+    expect(response.body.errors).toHaveLength(1)
+
+    expect(response.status).not.toBe(404)
+    expect(response.body.errors).not.toHaveLength(3)
+  })
+  it('should create a new autobus', async () => {
+    const response = await request(server).put('/api/autobus/1').send({
+      economico: 33,
+      corredorId: 2
+    })
+    expect(response.status).toEqual(200)
+    expect(response.body).toHaveProperty('data')
+
+    expect(response.status).not.toBe(404)
+    expect(response.status).not.toBe(201)
+    expect(response.body).not.toHaveProperty('errors')
+  })
+})
+describe('DELETE /api/autobus/:id', () => {
+  it('should check a valid ID', async () => {
+    const response = await request(server).delete('/api/autobus/not-valid')
+    expect(response.status).toBe(400)
+    expect(response.body).toHaveProperty('errors')
+    expect(response.body.errors[0].msg).toBe('ID no Válido')
+  })
+  it('should return a 404 response for a non-existent autobus', async () => {
+    const autobusId = 2000
+    const response = await request(server).delete(`/api/autobus/${autobusId}`)
+    expect(response.status).toBe(404)
+    expect(response.body.error).toBe('Autobus No Encontrado')
+    expect(response.status).not.toBe(200)
+  })
+  it('should delete a autobus', async () => {
+    const response = await request(server).delete('/api/autobus/1')
+    expect(response.status).toBe(200)
+    expect(response.body.data).toBe("Autobus Eliminado")
+
+    expect(response.status).not.toBe(404)
+    expect(response.status).not.toBe(400)
+  })
+})

@@ -34,7 +34,6 @@ describe('POST /api/tipouser', () => {
     expect(response.body).not.toHaveProperty('errors')
   })
 })
-
 describe('GET /api/tipouser', () => {
   it('should check if api/tipouser url exists', async () => {
     const response = await request(server).get('/api/tipouser')
@@ -49,7 +48,6 @@ describe('GET /api/tipouser', () => {
     expect(response.body).not.toHaveProperty('errors')
   })
 })
-
 describe('GET /api/tipouser/:id', () => {
   it('Should return a 404 response for a non-existent tipouser', async () => {
     const tipouserId = 2000
@@ -73,7 +71,6 @@ describe('GET /api/tipouser/:id', () => {
     expect(response.body).toHaveProperty('data')
   })
 })
-
 describe('PUT /api/tipouser/:id', () => {
   it('should check a valid ID in the URL', async () => {
     const response = await request(server)
@@ -142,7 +139,6 @@ describe('PUT /api/tipouser/:id', () => {
     expect(response.body).not.toHaveProperty('errors')
   })
 })
-
 describe('DELETE /api/tipouser/:id', () => {
   it('should check a valid ID', async () => {
     const response = await request(server).delete('/api/tipouser/not-valid')
