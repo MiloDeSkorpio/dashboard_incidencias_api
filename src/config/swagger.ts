@@ -16,6 +16,10 @@ const options: swaggerJSDoc.Options = {
       {
         name: 'Status',
         description: 'API operations related to Status on incidences'
+      },
+      {
+        name: 'Organismo',
+        description: 'API operations related to Organismo on users'
       }
     ],
     info: {

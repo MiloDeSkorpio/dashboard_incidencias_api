@@ -193,7 +193,7 @@ routerTipo.put('/:id',
  *     400:
  *        description: Bad request invalid Id or invalid input data
  *     404:
- *        description: TypeUser not found
+ *        description: TypeUser Not Found
  *  
  */ 
 // Routing DELETE  
