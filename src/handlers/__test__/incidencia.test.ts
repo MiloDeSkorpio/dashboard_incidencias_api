@@ -110,7 +110,6 @@ describe('POST /api/incidencia', () => {
     expect(response.body).not.toHaveProperty('errors')
   })
 })
-
 describe('GET /api/incidencia', () => {
   it('should check if api/incidencia url exists', async () => {
     const response = await request(server).get('/api/incidencia')
@@ -125,7 +124,6 @@ describe('GET /api/incidencia', () => {
     expect(response.body).not.toHaveProperty('errors')
   })
 })
-
 describe('GET /api/incidencia/:id', () => {
   it('Should return a 404 response for a non-existent incidencia', async () => {
     const incidenciaId = 2000
@@ -149,7 +147,6 @@ describe('GET /api/incidencia/:id', () => {
     expect(response.body).toHaveProperty('data')
   })
 })
-
 describe('PATCH /api/incidencia/:id', () => {
   it('should return a 404 response for a non-existing incidencia', async () => {
       const incidenciaId = 2000

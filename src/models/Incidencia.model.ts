@@ -31,10 +31,8 @@ class Incidencia extends Model {
         type: DataType.INTEGER  
     })
     declare idTec: number
-   
     @Column({
         type: DataType.DATE,
-        
     })
     declare assignedAt: Date
     @Column({

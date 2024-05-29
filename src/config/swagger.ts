@@ -28,6 +28,10 @@ const options: swaggerJSDoc.Options = {
       {
         name: 'Autobus',
         description: 'API operations related to Autobus on Corredores'
+      },
+      {
+        name: 'Incidencia',
+        description: 'API operations related to Incidencia on Validadores'
       }
     ],
     info: {
